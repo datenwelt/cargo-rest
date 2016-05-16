@@ -674,7 +674,7 @@ public class Router extends HttpServlet {
 
     protected ContentEncoder negotiateEncoding(Request request, Response response) throws APIException {
         AcceptHeader acceptEncoding = new AcceptHeader("Accept-Encoding");
-        if (request.header("Accept-Encoding").isPresent()) {
+        if (request != null && request.header("Accept-Encoding").isPresent()) {
             acceptEncoding.add(request.header("Accept-Encoding").get());
             response.header("Vary", "Accept-Encoding");
             boolean explicitIdentity = false;

@@ -242,7 +242,6 @@ public class Request {
 
         // Parse header values
         Enumeration headerNames = servletRequest.getHeaderNames();
-        QuotedPrintableCodec qp = new QuotedPrintableCodec();
         while (headerNames.hasMoreElements()) {
             String name = headerNames.nextElement().toString();
             Enumeration values = servletRequest.getHeaders(name);
@@ -253,13 +252,6 @@ public class Request {
                     headers.put(header.getName(), header);
                 }
                 String value = values.nextElement().toString();
-                try {
-                    value = qp.decode(value, "UTF-8");
-                } catch (DecoderException ex) {
-                    throw new APIException(new BadRequest(), "Request contains bad header value: " + value, ex);
-                } catch (UnsupportedEncodingException ex) {
-                    throw new Error("Your platform does not support UTF-8.");
-                }
                 header.add(Header.decode(name, value));
             }
         }
